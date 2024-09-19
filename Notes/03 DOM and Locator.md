@@ -1,0 +1,161 @@
+## HTML DOM and Locators
+
+**HTML DOM (Document Object Model):**
+
+* Represents the structure of an HTML document as a tree.
+* Nodes in the tree represent elements, attributes, and text content.
+* Used to interact with and manipulate web pages using JavaScript.
+
+**HTML Elements:**
+
+* Building blocks of HTML documents.
+* Have tags (e.g., `<div>`, `<input>`) and attributes (e.g., `id`, `class`, `type`).
+* May contain nested elements and text content.
+
+**HTML Attributes:**
+
+* Provide additional information about elements.
+* Have names and values (e.g., `<input type="email">`).
+* `id` and `class` are special attributes:
+    * `id` should be unique within a document.
+    * `class` can have multiple values separated by spaces.
+
+**HTML Structure:**
+
+* Parent-child relationships:
+    * Elements nested within others are children.
+    * Elements at the same level are siblings.
+* Text content:
+    * Located between opening and closing tags.
+    * May be hidden or dynamically generated.
+
+**Locators:**
+
+* Used to identify and interact with elements in automation.
+* Common types:
+    * **ID:** Unique identifier for an element.
+    * **Class:** One or more classes associated with an element.
+    * **Name:** Value of the `name` attribute.
+    * **XPath:** A complex expression to locate elements based on their position in the DOM.
+    * **CSS selector:** A CSS-like expression to select elements.
+
+**Key Points:**
+
+* Understanding the HTML DOM is essential for effective automation.
+* Locators are used to target specific elements.
+* Choose appropriate locators based on element uniqueness and maintainability.
+* Consider using a combination of locators for robustness.
+
+**Additional Notes:**
+
+* Explore the Cypress documentation for more information on locators and selectors.
+* Practice using different locator strategies in your tests.
+* Be aware of potential challenges like dynamic content and changing element attributes.
+
+
+## Cypress Test Structure and Hooks
+
+**Test Structure:**
+
+* **`describe` or `context`:** Defines a test suite.
+* **`it`:** Defines a test case within a suite.
+* **Nested `describe`:** Creates sections or sub-suites.
+
+**Example:**
+
+```javascript
+describe('First Test Suite', () => {
+  it('First Test', () => {
+    // Test code here
+  });
+
+  it('Second Test', () => {
+    // Test code here
+  });
+
+  describe('Test Section', () => {
+    it('Test within Section', () => {
+      // Test code here
+    });
+  });
+});
+```
+
+**Hooks:**
+
+* **`beforeEach`:** Runs before each test within a suite.
+* **`afterEach`:** Runs after each test within a suite.
+* **`before`:** Runs once before all tests in a spec file.
+* **`after`:** Runs once after all tests in a spec file.
+
+**Example:**
+
+```javascript
+describe('Login Tests', () => {
+  beforeEach(() => {
+    // Login logic here
+  });
+
+  it('Successful Login', () => {
+    // Test successful login
+  });
+
+  it('Failed Login', () => {
+    // Test failed login
+  });
+});
+```
+
+**Key Points:**
+
+* Use `describe` and `it` to organize tests into suites and cases.
+* Nest `describe` blocks to create sections within suites.
+* Use hooks to set up and tear down test environments.
+* Before/after hooks apply to all tests in a spec file.
+* BeforeEach/afterEach hooks apply to each test within a suite.
+* Choose appropriate hooks based on your testing needs.
+
+## Cypress Locators and Syntax Rules
+
+**Locators:**
+
+* Used to identify and interact with elements on a web page.
+* Cypress supports various locator strategies.
+
+**Common Locator Strategies:**
+
+* **Tag Name:** `cy.get('input')`
+* **ID:** `cy.get('#inputEmail1')`
+* **Class:** `cy.get('.input-full-width')`
+* **Attribute:** `cy.get('[placeholder="Email"]')`
+* **Attribute and Value:** `cy.get('[placeholder="Email"][type="email"]')`
+* **Entire Class Value:** `cy.get('.input-full-width.size-medium.shape-rectangle')`
+* **Custom Data Attribute:** `cy.get('[data-cy="email-input"]')`
+
+**Example:**
+
+```javascript
+cy.visit('/forms/form-layouts');
+
+cy.get('input').should('have.length', 20); // Find all input elements
+cy.get('#inputEmail1').should('exist'); // Find by ID
+cy.get('.input-full-width').should('have.length', 14); // Find by class
+cy.get('[placeholder="Email"]').should('have.length', 5); // Find by attribute
+cy.get('[placeholder="Email"][type="email"]').should('have.length', 1); // Find by multiple attributes
+cy.get('[data-cy="email-input"]').should('exist'); // Find by custom data attribute
+```
+
+**Key Points:**
+
+* Choose locators that are specific and unique to avoid unintended interactions.
+* Consider using custom data attributes for better maintainability.
+* Combine locators when necessary to ensure accurate targeting.
+* Avoid using XPath in Cypress, as it can be less reliable and harder to maintain.
+* Use Cypress's built-in methods and assertions for effective testing.
+
+**Additional Notes:**
+
+* Experiment with different locator strategies to find the most suitable ones for your application.
+* Be aware of potential challenges like dynamic content and changing element attributes.
+* Consider using a linter to maintain consistent locator formatting.
+* Explore Cypress's documentation for more advanced locator techniques and best practices.
