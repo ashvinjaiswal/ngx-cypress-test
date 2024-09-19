@@ -7,5 +7,6 @@ module.exports = defineConfig({
     excludeSpecPattern: ['**/getting-started*', '**advanced-examples*'],
     specPattern: 'cypress/e2e/**/*.spec.{js,jsx,ts,tsx}',
     viewportWidth: 1920,
+    viewportHeight: 1800
   },
 })

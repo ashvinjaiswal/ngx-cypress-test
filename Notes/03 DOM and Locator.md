@@ -159,3 +159,53 @@ cy.get('[data-cy="email-input"]').should('exist'); // Find by custom data attrib
 * Be aware of potential challenges like dynamic content and changing element attributes.
 * Consider using a linter to maintain consistent locator formatting.
 * Explore Cypress's documentation for more advanced locator techniques and best practices.
+
+
+## Cypress Methods for Interacting with Elements
+
+**Cypress provides three primary methods for interacting with web elements:**
+
+1. **`cy.get()`:** [Doc](https://docs.cypress.io/api/commands/get)
+   * Finds elements globally on the page based on a locator.
+   * Returns a chainable object representing the found elements.
+
+2. **`cy.find()`:** [Doc](https://docs.cypress.io/api/commands/find)
+   * Finds child elements within a parent element.
+   * Must be chained after a `cy.get()` or another command that returns an element.
+
+3. **`cy.contains()`:** [Doc](https://docs.cypress.io/api/commands/contains)
+   * Finds elements containing specific text.
+   * Can be used to find elements by their text content or to find elements within a parent element that contain a specific text.
+
+**Example:**
+
+```javascript
+cy.visit('/forms/form-layouts');
+
+// Find an element by ID
+cy.get('#inputEmail1').should('exist');
+
+// Find a child element within a parent
+cy.get('.form-group').find('input').should('have.length', 2);
+
+// Find an element by text
+cy.contains('Sign In').click();
+
+// Find an element by text and a specific attribute
+cy.contains('Sign In', '[data-cy="primary-button"]').click();
+```
+
+**Key Points:**
+
+* **`cy.get()`** is the most versatile method for finding elements.
+* **`cy.find()`** is used for finding child elements within a parent.
+* **`cy.contains()`** is useful for finding elements based on their text content.
+* You can chain multiple methods together to create complex locators.
+* Use the `should` assertion to verify that elements were found and meet expectations.
+
+**Additional Notes:**
+
+* Cypress provides other methods for interacting with elements, such as `cy.click()`, `cy.type()`, `cy.should()`, and more.
+* Experiment with different locator strategies to find the most suitable ones for your application.
+* Consider using custom data attributes for more reliable and maintainable locators.
+
