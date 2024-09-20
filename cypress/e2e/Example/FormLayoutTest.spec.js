@@ -110,4 +110,41 @@ describe("Form Layout Suits",  ()=>{
       cy.wrap(usingTheGridForm).find('[for="inputPassword2"]').should('contain', 'Password');
     })
   })
+
+  it.only('Extract Text value', ()=>{
+    //Visit page
+    cy.visit('/');
+
+    //find element and click
+    cy.contains('Forms').click();
+    cy.contains('Form Layouts').click();
+
+    //1. Get the Elemente by attribute and check for label text
+    cy.get('[for="exampleInputEmail1"]').should('contain', 'Email address')
+
+    //2. Use the extracted text (text) for assertions
+    cy.get('[for="exampleInputEmail1"]').then(label =>{
+      const labelText = label.text();
+      expect(labelText).to.equal('Email address');
+      cy.wrap(labelText).should('contain', 'Email address')
+    })
+
+    //3. Use the extracted text (text) using .invoke(functionName)
+    cy.get('[for="exampleInputEmail1"]').invoke('text').then(labelText =>{
+      expect(labelText).to.equal('Email address');
+    })
+    cy.get('[for="exampleInputEmail1"]').invoke('text').should('contain', 'Email address')
+
+    //4 check the attribute vlaue
+    cy.get('[for="exampleInputEmail1"]').invoke('attr','class').then(classValue =>{
+      expect(classValue).to.equal('label')
+    })
+
+    //5 Invoke property for input element
+    cy.get('#exampleInputEmail1').type('Test@gmail.com');
+    cy.get('#exampleInputEmail1').invoke('prop','value').should('contains','Test@gmail.com').then(property =>{
+      expect(property).to.equal('Test@gmail.com')
+    })
+
+  })
 })

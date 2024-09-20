@@ -252,3 +252,133 @@ cy.get('.form-group').then((form) => {
 * Use `cy.wrap()` with caution, as it can introduce potential issues if not used correctly.
 * Consider using a linter to enforce consistent alias naming conventions.
 * Experiment with both approaches to understand their benefits and limitations.
+
+## Cypress: Extracting Text Values from Web Pages
+
+This lesson covers various methods for extracting text values from web pages using Cypress.
+
+### Methods for Extracting Text:
+
+1. **jQuery Text Method (then())**
+   - Use `.get()` to find the element.
+   - Use `.then()` to access the element as a jQuery object.
+   - Use the jQuery `.text()` method to extract the HTML text.
+   - Example:
+
+   ```javascript
+   cy.get('input#email').then(($el) => {
+     const text = $el.text();
+     // Use the extracted text (text) for assertions, assignments, etc.
+   });
+   ```
+
+2. **Cypress `invoke('text')` Method**
+   - Use `.get()` to find the element.
+   - Use `.invoke('text')` to extract the pure text value.
+   - Example:
+
+   ```javascript
+   cy.get('label').invoke('text').then((text) => {
+     expect(text).to.equal('Email Address');
+   });
+   ```
+
+3. **Cypress Aliases**
+   - Use `.get()` to find the element.
+   - Use `.as()` to save the element as an alias for later use.
+   - Example:
+
+   ```javascript
+   cy.get('label').as('labelText');
+   cy.get('@labelText').should('contain.text', 'Email Address');
+   ```
+
+### Extracting Attributes and Properties:
+
+1. **Cypress `invoke('attr', 'attributeName')`**
+   - Use `.get()` to find the element.
+   - Use `.invoke('attr', 'attributeName')` to extract the value of an attribute.
+   - Example (get class value):
+
+   ```javascript
+   cy.get('#checkbox').invoke('attr', 'class').then((classValue) => {
+     expect(classValue).to.include('checked');
+   });
+   ```
+
+2. **Cypress `invoke('prop', 'propertyName')`**
+   - Use `.get()` to find the element.
+   - Use `.invoke('prop', 'propertyName')` to extract the value of a property (e.g., input value).
+   - Example (get input field value):
+
+   ```javascript
+   cy.get('#emailInput').type('test@test.com').then(() => {
+     cy.get('#emailInput').invoke('prop', 'value').then((value) => {
+       expect(value).to.equal('test@test.com');
+     });
+   });
+   ```
+
+### Key Points:
+
+* Choose the appropriate method based on your needs:
+   - jQuery `.text()` for HTML text.
+   - Cypress `invoke('text')` for pure text value.
+   - Cypress `invoke('attr')` and `invoke('prop')` for attributes and properties.
+* Use Cypress assertions (`expect`, `should`) to verify extracted values.
+* Consider using aliases for reusable elements.
+* Be mindful of the difference between HTML text and element properties.
+
+I'd be glad to provide more details about the Cypress `invoke` method and practical examples:
+
+**Cypress `invoke` Method:** [Doc](https://docs.cypress.io/api/commands/invoke)
+
+* **Purpose:** Used to invoke JavaScript methods on DOM elements, allowing you to extract attributes, properties, or perform custom actions.
+* **Syntax:** `cy.get(selector).invoke(methodName, args)`
+    - `selector`: A CSS selector or other locator to find the element.
+    - `methodName`: The name of the JavaScript method to invoke.
+    - `args`: Optional arguments to pass to the method.
+
+**Common Use Cases:**
+
+1. **Extracting Attributes:**
+   - Get the value of an attribute:
+     ```javascript
+     cy.get('input#email').invoke('attr', 'type').should('equal', 'email');
+     ```
+   - Check if an attribute exists:
+     ```javascript
+     cy.get('button').invoke('attr', 'disabled').should('not.exist');
+     ```
+
+2. **Extracting Properties:**
+   - Get the value of a property (e.g., `value` for input fields):
+     ```javascript
+     cy.get('#passwordInput').type('myPassword').invoke('prop', 'value').should('equal', 'myPassword');
+     ```
+   - Check if a property has a specific value:
+     ```javascript
+     cy.get('select').invoke('prop', 'selectedIndex').should('equal', 1);
+     ```
+
+3. **Calling Custom Methods:**
+   - If you've defined custom JavaScript methods on your elements, you can invoke them:
+     ```javascript
+     cy.get('button.custom-button').invoke('myCustomMethod', 'arg1', 'arg2').should('equal', 'result');
+     ```
+
+4. **Chaining Commands:**
+   - You can chain `invoke` with other Cypress commands for more complex operations:
+     ```javascript
+     cy.get('input#email').invoke('val', 'test@example.com').should('have.value', 'test@example.com');
+     ```
+
+**Additional Notes:**
+
+* The `invoke` method returns a Cypress chainable object, allowing you to continue chaining commands.
+* For most common DOM properties and attributes, you can use dedicated Cypress commands (e.g., `cy.val()` for input values, `cy.text()` for text content).
+* If you need to access a property that Cypress doesn't have a built-in method for, `invoke` is the way to go.
+* Explore the Cypress documentation for a complete list of available `invoke` methods and their usage.
+
+By effectively using the `invoke` method, you can extract a wide range of information from web elements and perform complex assertions and interactions.
+
