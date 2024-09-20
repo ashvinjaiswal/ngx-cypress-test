@@ -2,7 +2,7 @@
 
 describe("Form Layout Suits",  ()=>{
 
-  it.skip('Visit Form layout with various locator', ()=>{
+  it('Visit Form layout with various locator', ()=>{
     //Visit page
     cy.visit('/');
 
@@ -77,5 +77,37 @@ describe("Form Layout Suits",  ()=>{
     .parents('form')
     .find('nb-checkbox')
     .click();
+  })
+
+
+  it("Save sunject of the command",()=>{
+    //Visit page
+    cy.visit('/');
+
+    //find element and click
+    cy.contains('Forms').click();
+    cy.contains('Form Layouts').click();
+
+    cy.contains('nb-card','Using the Grid').find('[for="inputEmail1"]').should('contain', 'Email');
+    cy.contains('nb-card','Using the Grid').find('[for="inputPassword2"]').should('contain', 'Password');
+
+    // CANT DO THING LIKE THIS
+    // const usingTheGrid = cy.contains('nb-card','Using the Grid');
+    // usingTheGrid.find('[for="inputEmail1"]').should('contain', 'Email');
+    // usingTheGrid.find('[for="inputPassword2"]').should('contain', 'Password');
+
+    // 1 Cypress Alias
+    cy.log('Using Cypress Alias')
+    cy.contains('nb-card','Using the Grid').as('usingTheGrid');
+    cy.get('@usingTheGrid').find('[for="inputEmail1"]').should('contain', 'Email');
+    cy.get('@usingTheGrid').find('[for="inputPassword2"]').should('contain', 'Password');
+
+    //  Cypress then metods
+    cy.contains('nb-card','Using the Grid').then(usingTheGridForm =>{
+      // usingTheGrid is jquery element and its not chainable
+      // In order to chail use cy.wrap
+      cy.wrap(usingTheGridForm).find('[for="inputEmail1"]').should('contain', 'Email');
+      cy.wrap(usingTheGridForm).find('[for="inputPassword2"]').should('contain', 'Password');
+    })
   })
 })

@@ -209,3 +209,46 @@ cy.contains('Sign In', '[data-cy="primary-button"]').click();
 * Experiment with different locator strategies to find the most suitable ones for your application.
 * Consider using custom data attributes for more reliable and maintainable locators.
 
+## Cypress Aliases and `then()` Method
+
+**Cypress Aliases:** [Doc](https://docs.cypress.io/guides/core-concepts/variables-and-aliases)
+
+* Store a reference to a Cypress command's subject.
+* Can be used to reuse elements or values throughout a test.
+* Defined using the `.as()` command.
+
+**Example:**
+
+```javascript
+cy.get('.form-group').as('formGroup');
+
+cy.get('@formGroup').find('input').should('exist');
+```
+
+**`then()` Method:** [Doc](https://docs.cypress.io/api/commands/then)
+
+* Chains commands together and provides access to the subject of the previous command.
+* Returns a jQuery object, which requires wrapping with `cy.wrap()` to use Cypress commands.
+
+**Example:**
+
+```javascript
+cy.get('.form-group').then((form) => {
+  // Use form as a jQuery object
+  cy.wrap(form).find('input').should('exist');
+});
+```
+
+**Key Points:**
+
+* Aliases are useful for storing frequently used elements or values.
+* `then()` provides access to the subject of a command within a callback function.
+* Use `cy.wrap()` to convert jQuery objects back to Cypress chainable objects.
+* Choose the appropriate approach based on your testing needs and preferences.
+
+**Additional Notes:**
+
+* Aliases are scoped to the current test.
+* Use `cy.wrap()` with caution, as it can introduce potential issues if not used correctly.
+* Consider using a linter to enforce consistent alias naming conventions.
+* Experiment with both approaches to understand their benefits and limitations.
