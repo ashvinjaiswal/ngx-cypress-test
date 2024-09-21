@@ -255,8 +255,6 @@ cy.get('.form-group').then((form) => {
 
 ## Cypress: Extracting Text Values from Web Pages
 
-This lesson covers various methods for extracting text values from web pages using Cypress.
-
 ### Methods for Extracting Text:
 
 1. **jQuery Text Method (then())**
@@ -329,8 +327,6 @@ This lesson covers various methods for extracting text values from web pages usi
 * Consider using aliases for reusable elements.
 * Be mindful of the difference between HTML text and element properties.
 
-I'd be glad to provide more details about the Cypress `invoke` method and practical examples:
-
 **Cypress `invoke` Method:** [Doc](https://docs.cypress.io/api/commands/invoke)
 
 * **Purpose:** Used to invoke JavaScript methods on DOM elements, allowing you to extract attributes, properties, or perform custom actions.
@@ -382,3 +378,65 @@ I'd be glad to provide more details about the Cypress `invoke` method and practi
 
 By effectively using the `invoke` method, you can extract a wide range of information from web elements and perform complex assertions and interactions.
 
+
+## Cypress: Working with Radio Buttons and Checkboxes
+
+**Key Points:**
+
+* Use `cy.get()` to find the radio button or checkbox elements.
+* Use `cy.check()` and `cy.uncheck()` to interact with these elements.
+* Consider using `cy.check({ force: true })` to override Cypress's default visibility checks.
+* For radio buttons, only one button can be selected at a time.
+* For checkboxes, multiple buttons can be selected or deselected independently.
+
+**Example:**
+
+```javascript
+cy.visit('/forms/form-layouts');
+
+cy.get('[type="radio"]').eq(0).check({ force: true }); // Check the first radio button
+cy.get('[type="radio"]').eq(1).check({ force: true }); // Check the second radio button
+cy.get('[type="radio"]').eq(0).should('not.be.checked'); // Verify the first radio button is unchecked
+
+cy.get('[type="checkbox"]').check(); // Check all checkboxes
+cy.get('[type="checkbox"]').eq(1).uncheck(); // Uncheck the second checkbox
+```
+
+**Additional Notes:**
+
+* You can use `cy.contains()` to find elements by their text content if necessary.
+* For more complex scenarios, you might need to combine different locators or use custom commands.
+* Always test your automation scripts thoroughly to ensure they are reliable and robust.
+
+**Cypress `cy.check()` Method:**
+
+* **Purpose:** Used to check or uncheck checkboxes.
+* **Syntax:** `cy.get(selector).check(options)`
+    - `selector`: A CSS selector or other locator to find the checkbox element.
+    - `options`: Optional object with configuration properties:
+        - `force`: Set to `true` to override Cypress's default visibility checks.
+        - `label`: If you want to check a checkbox by its label text instead of its element, provide the label text here.
+
+**Example:**
+
+```javascript
+cy.visit('/forms/form-layouts');
+
+// Check a checkbox by its element
+cy.get('[type="checkbox"]').eq(0).check({ force: true });
+
+// Check a checkbox by its label
+cy.contains('Checkbox 1').check();
+
+// Uncheck a checkbox
+cy.get('[type="checkbox"]').eq(1).uncheck();
+```
+
+**Key Points:**
+
+* The `cy.check()` method automatically handles the state of the checkbox, checking it if it's unchecked and unchecking it if it's checked.
+* If the checkbox is hidden or not visible, you can use the `force: true` option to override Cypress's default checks.
+* You can check or uncheck multiple checkboxes at once by using the `cy.check()` method on a collection of elements.
+* For more complex scenarios, you might need to combine `cy.check()` with other Cypress methods, like `cy.contains()` or `cy.get()`.
+
+By understanding these additional details about the `cy.check()` method, you can effectively automate interactions with checkboxes in your Cypress tests.
